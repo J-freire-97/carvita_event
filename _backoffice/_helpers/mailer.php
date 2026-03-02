@@ -24,12 +24,19 @@ function send_email_outlook($cfg, $to_email, $to_name, $subject, $html, $qr_path
     $mail->isHTML(true);
     $mail->Subject = $subject;
 
-    // Embutir QR no email
-    if ($qr_path && file_exists($qr_path)) {
-      $mail->addEmbeddedImage($qr_path, 'qrcodecid', 'qrcode.png', 'base64', 'image/png');
-      $html = str_replace('{{QR_IMAGE}}', 'cid:qrcodecid', $html);
+    // QR no email: aceita URL (recomendado) ou ficheiro local
+    if ($qr_path) {
+      if (preg_match('~^https?://~i', $qr_path)) {
+        // QR é URL público
+        $html = str_replace('{{QR_IMAGE}}', $qr_path, $html);
+      } elseif (file_exists($qr_path)) {
+        // QR é ficheiro local -> embutir
+        $mail->addEmbeddedImage($qr_path, 'qrcodecid', 'qrcode.png', 'base64', 'image/png');
+        $html = str_replace('{{QR_IMAGE}}', 'cid:qrcodecid', $html);
+      } else {
+        $html = str_replace('{{QR_IMAGE}}', '', $html);
+      }
     } else {
-      // fallback (se não houver QR)
       $html = str_replace('{{QR_IMAGE}}', '', $html);
     }
 
@@ -57,7 +64,6 @@ function build_invitation_html($v){
     $event_date = htmlspecialchars($v['event_date'] ?? '');
 
     $checkin_url = $v['checkin_url'] ?? '';
-    $qr_img = $v['qr_img'] ?? '';
 
     // HTML simples (sem CSS externo porque não funciona em email)
     return "
@@ -80,7 +86,7 @@ function build_invitation_html($v){
 
       <p><b>QR Code for entrance:</b></p>
         <p><a href='$checkin_url' target='_blank' rel='noopener noreferrer'>$checkin_url</a></p>
-        <img src='$qr_img' width='220' alt='QR Code'>
+        <img src='{{QR_IMAGE}}' width='220' alt='QR Code'>
         <p>Best regards,<br>The CarVita Team</p>
     ";
 }

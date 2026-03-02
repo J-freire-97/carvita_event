@@ -10,20 +10,10 @@ function build_checkin_url(string $token): string {
   return $base_url . "/checkin.php?code=" . urlencode($token);
 }
 
-// Gera QR Code em PNG local e devolve o caminho do ficheiro
-function build_qr_png_path(string $checkin_url, int $size = 8): string {
-  $lib = __DIR__ . '/phpqrcode/qrlib.php';
-  if (!file_exists($lib)) {
-    throw new Exception("Missing QR library: $lib");
-  }
-  require_once $lib;
-
-  $tmp  = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR);
-  $file = $tmp . DIRECTORY_SEPARATOR . 'qrcode_' . bin2hex(random_bytes(8)) . '.png';
-
-  QRcode::png($checkin_url, $file, QR_ECLEVEL_L, $size, 2);
-
-  return $file;
+// Em vez de gerar PNG local, devolve um URL público para o QR
+function build_qr_png_path(string $checkin_url, int $size = 220): string {
+  $s = max(120, min(600, $size));
+  return "https://api.qrserver.com/v1/create-qr-code/?size={$s}x{$s}&data=" . urlencode($checkin_url);
 }
 
 ?>
