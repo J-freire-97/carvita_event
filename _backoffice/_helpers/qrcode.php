@@ -9,9 +9,20 @@ function build_checkin_url(string $token): string {
     $base_url = rtrim(getenv('APP_URL') ?: 'https://carvita-event.onrender.com', '/');
     return $base_url . "/checkin.php?code=" . urlencode($token);
 }
-// URL da imagem QR (Google Chart)
-function build_qr_image_url(string $checkin_url, int $size = 220): string {
-    return "https://chart.googleapis.com/chart?chs={$size}x{$size}&cht=qr&chl=" . urlencode($checkin_url);
+
+// Gera QR Code em PNG local e devolve o caminho do ficheiro
+function build_qr_png_path(string $checkin_url, int $size = 8): string {
+    // precisa do qrlib.php (o teu ficheiro)
+    require_once __DIR__ . '/qrlib.php';
+
+    // /tmp é writeable no Render
+    $tmp = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR);
+    $file = $tmp . DIRECTORY_SEPARATOR . 'qrcode_' . bin2hex(random_bytes(8)) . '.png';
+
+    // ECC L (low), size=8 costuma ficar bom em email
+    QRcode::png($checkin_url, $file, QR_ECLEVEL_L, $size, 2);
+
+    return $file;
 }
 
 ?>

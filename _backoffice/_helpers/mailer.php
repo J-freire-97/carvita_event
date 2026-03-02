@@ -5,39 +5,44 @@ require_once '_helpers/phpmailer/src/PHPMailer.php';
 require_once '_helpers/phpmailer/src/SMTP.php';
 
 function send_email_outlook($cfg, $to_email, $to_name, $subject, $html, $qr_path = null){
-    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+  $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
 
-    try {
-      $mail->CharSet = 'UTF-8';
+  try {
+    $mail->CharSet = 'UTF-8';
 
-      // SMTP
-      $mail->isSMTP();
-      $mail->Host = $cfg['host'];
+    $mail->isSMTP();
+    $mail->Host = $cfg['host'];
+    $mail->SMTPAuth = true;
+    $mail->Username = $cfg['username'];
+    $mail->Password = $cfg['password'];
+    $mail->Port = (int)$cfg['port'];
+    $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
 
-      $mail->SMTPAuth = true;
-      $mail->Username = $cfg['username'];
-      $mail->Password = $cfg['password'];
-      $mail->Port = (int)$cfg['port'];
-      $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->setFrom($cfg['from_email'], $cfg['from_name']);
+    $mail->addAddress($to_email, $to_name);
 
-      // From / To
-      $mail->setFrom($cfg['from_email'], $cfg['from_name']);
-      $mail->addAddress($to_email, $to_name);
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
 
-      // Content
-      $mail->isHTML(true);
-      $mail->Subject = $subject;
-      $mail->Body = $html;
-      $mail->AltBody = strip_tags($html);
-      $mail->send();
-      return true;
-
-    } 
-    catch (\PHPMailer\PHPMailer\Exception $e) {
-        // em debug podes fazer: 
-        echo "<pre>MAIL ERROR: " . $e->getMessage() . "</pre>";
-        return false;
+    // Embutir QR no email
+    if ($qr_path && file_exists($qr_path)) {
+      $mail->addEmbeddedImage($qr_path, 'qrcodecid', 'qrcode.png', 'base64', 'image/png');
+      $html = str_replace('{{QR_IMAGE}}', 'cid:qrcodecid', $html);
+    } else {
+      // fallback (se não houver QR)
+      $html = str_replace('{{QR_IMAGE}}', '', $html);
     }
+
+    $mail->Body = $html;
+    $mail->AltBody = strip_tags($html);
+
+    $mail->send();
+    return true;
+
+  } catch (\PHPMailer\PHPMailer\Exception $e) {
+      echo "<pre>MAIL ERROR: " . $e->getMessage() . "</pre>";
+      return false;
+  }
 }
 
 function build_invitation_html($v){
@@ -75,7 +80,7 @@ function build_invitation_html($v){
 
       <p><b>QR Code for entrance:</b></p>
       <p><a href=\"$checkin_url\" target=\"_blank\" rel=\"noopener noreferrer\">$checkin_url</a></p>
-      <img src=\"$qr_img\" width=\"220\" alt=\"QR Code\">
+      <img src="{{QR_IMAGE}}" width="220" alt="QR Code">
       <p>Best regards,<br>The CarVita Team</p>
     ";
 }

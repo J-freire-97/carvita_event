@@ -81,7 +81,7 @@ if ($form) {
 
         $token = $tokensByPid[$pid] ?? '';
         $checkin_url = build_checkin_url($token);
-        $qr_img = build_qr_image_url($checkin_url);
+        $qr_path = build_qr_png_path($checkin_url);
 
         $html = build_invitation_html([
           'title' => $p['title'] ?? '',
@@ -93,7 +93,7 @@ if ($form) {
           'event_location' => $location,
           'event_date' => $event_date,
           'checkin_url' => $checkin_url,
-          'qr_img' => $qr_img,
+          // 'qr_img' => $qr_img,
         ]);
 
         $ok = send_email_outlook(
@@ -102,6 +102,7 @@ if ($form) {
           trim(($p['first_name'] ?? '') . ' ' . ($p['last_name'] ?? '')),
           $event_name . 'Event Registration',
           $html
+          $qr_path
         );
 
         if ($ok) $sent++; else $failed++;
