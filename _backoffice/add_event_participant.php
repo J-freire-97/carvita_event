@@ -101,7 +101,7 @@ if ($form) {
           $p['email'],
           trim(($p['first_name'] ?? '') . ' ' . ($p['last_name'] ?? '')),
           $event_name . 'Event Registration',
-          $html
+          $html,
           $qr_path
         );
 
