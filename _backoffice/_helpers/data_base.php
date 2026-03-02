@@ -1,13 +1,23 @@
 <?php
 
 $base_dados = [
-  "host" => "localhost",
-  "dbname" => "car_vita_event",
-  "user" => "root",
-  "pass" => "",
+  "host"   => getenv('DB_HOST') ?: "localhost",
+  "port"   => getenv('DB_PORT') ?: "3306",
+  "dbname" => getenv('DB_NAME') ?: "car_vita_event",
+  "user"   => getenv('DB_USER') ?: "root",
+  "pass"   => getenv('DB_PASS') ?: "",
 ];
 
-$pdo = new PDO("mysql:host=$base_dados[host];dbname=$base_dados[dbname];charset=utf8mb4;", $base_dados["user"], $base_dados["pass"]);
+$dsn = "mysql:host={$base_dados['host']};port={$base_dados['port']};dbname={$base_dados['dbname']};charset=utf8mb4";
+
+try {
+  $pdo = new PDO($dsn, $base_dados["user"], $base_dados["pass"], [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+  ]);
+} catch (PDOException $e) {
+  die("DB connection failed: " . $e->getMessage());
+}
 
 function select_sql($sql){
   global $pdo;
