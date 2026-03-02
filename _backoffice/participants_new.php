@@ -78,22 +78,22 @@ ob_end_flush();
 
       <div class="form_field">
         <label>Vorname</label>
-        <input type="text" name="first_name" value="">
+        <input type="text" name="first_name" value="" required>
       </div>
 
       <div class="form_field">
         <label>Nachname</label>
-        <input type="text" name="last_name" value="">
+        <input type="text" name="last_name" value="" required>
       </div>
 
       <div class="form_field full">
         <label>Firma</label>
-        <input type="text" name="company" value="">
+        <input type="text" name="company" value="" required>
       </div>
 
       <div class="form_field full">
         <label>Email Adresse</label>
-        <input type="email" name="email" value="">
+        <input type="email" name="email" value="" required>
       </div>
 
       <div class="form_field full">
