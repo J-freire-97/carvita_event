@@ -13,7 +13,7 @@ function build_checkin_url(string $token): string {
 // Gera QR Code em PNG local e devolve o caminho do ficheiro
 function build_qr_png_path(string $checkin_url, int $size = 8): string {
     // precisa do qrlib.php (o teu ficheiro)
-    require_once __DIR__ . '/qrlib.php';
+    require_once __DIR__ . '/phpqrcode/qrlib.php';
 
     // /tmp é writeable no Render
     $tmp = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR);
