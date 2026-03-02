@@ -1,0 +1,81 @@
+<?php
+
+require_once '_helpers/phpmailer/src/Exception.php';
+require_once '_helpers/phpmailer/src/PHPMailer.php';
+require_once '_helpers/phpmailer/src/SMTP.php';
+
+function send_email_outlook($cfg, $to_email, $to_name, $subject, $html, $qr_path = null){
+    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+
+    try {
+      $mail->CharSet = 'UTF-8';
+
+      // SMTP
+      $mail->isSMTP();
+      $mail->Host = $cfg['host'];
+
+      $mail->SMTPAuth = true;
+      $mail->Username = $cfg['username'];
+      $mail->Password = $cfg['password'];
+      $mail->Port = (int)$cfg['port'];
+      $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+
+      // From / To
+      $mail->setFrom($cfg['from_email'], $cfg['from_name']);
+      $mail->addAddress($to_email, $to_name);
+
+      // Content
+      $mail->isHTML(true);
+      $mail->Subject = $subject;
+      $mail->Body = $html;
+      $mail->AltBody = strip_tags($html);
+      $mail->send();
+      return true;
+
+    } 
+    catch (\PHPMailer\PHPMailer\Exception $e) {
+        // em debug podes fazer: 
+        echo "<pre>MAIL ERROR: " . $e->getMessage() . "</pre>";
+        return false;
+    }
+}
+
+function build_invitation_html($v){
+    // mantém segurança
+    $title = htmlspecialchars($v['title'] ?? '');
+    $first = htmlspecialchars($v['first_name'] ?? '');
+    $full = htmlspecialchars($v['full_name'] ?? '');
+    $company = htmlspecialchars($v['company'] ?? '');
+    $email = htmlspecialchars($v['email'] ?? '');
+    $event = htmlspecialchars($v['event_name'] ?? 'Event');
+    $location = htmlspecialchars($v['event_location'] ?? '');
+    $event_date = htmlspecialchars($v['event_date'] ?? '');
+
+    $checkin_url = $v['checkin_url'] ?? '';
+    $qr_img = $v['qr_img'] ?? '';
+
+    // HTML simples (sem CSS externo porque não funciona em email)
+    return "
+      <h2>$event</h2>
+      <p>Dear, $title $full,</p>
+      <p>Thank you for registering for the $event event.</p>
+
+      <p><b>Participant details:</b><br>
+        Name: $full<br>
+        Company: $company<br>
+        Email: $email
+      </p>
+
+      <p><b>Event details:</b><br>
+        Name: $event Event<br>
+        Location: $location<br>
+        Date: $event_date
+      </p>
+
+
+      <p><b>QR Code for entrance:</b></p>
+      <p><a href=\"$checkin_url\" target=\"_blank\" rel=\"noopener noreferrer\">$checkin_url</a></p>
+      <img src=\"$qr_img\" width=\"220\" alt=\"QR Code\">
+      <p>Best regards,<br>The CarVita Team</p>
+    ";
+}

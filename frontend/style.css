@@ -1,0 +1,95 @@
+body{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 20px;
+  text-align: center;
+  background-color: rgba(123, 173, 117, 0.6);
+  color: white;    
+  width: 380px;
+  margin: auto;
+}
+
+.navbar{
+  text-align: center;
+  align-content: center;
+  height: 50px; 
+  margin: auto;
+}
+
+.navbar a{
+  padding: 10px 15px;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  text-transform: uppercase;
+  background-color: rgba(50, 150, 100, 0.7);
+  border-radius: 20px;
+}
+.navbar a:hover{
+  color: bisque;
+  font-size: 15px;
+}
+
+main img{width: 250px;}
+
+form{
+  max-width: 500px;
+  margin: auto;
+}
+
+label{
+  display: block;
+  margin-bottom: 12px;
+}
+
+input, select{
+  border-radius: 20px;
+  border: none;
+  width: 100%;
+  padding: 6px;
+  margin-top: 4px;
+}
+
+button{
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
+  padding: 8px 10px;
+  background-color: green;
+  color: white;
+  font-size: 14px;
+}
+button:hover{
+  background-color: rgb(0, 162, 0);
+  color: white;
+  cursor: pointer;
+}
+
+hr{
+  width: 250px;
+  border-color: aliceblue;
+  border: 5px double aliceblue;
+}
+
+.register img{
+  width: 150px;
+}
+
+.footer_all{
+  margin-bottom: 0px;
+  margin: 20px auto;
+  background-color: rgba(100, 100, 100, 0.628);
+  font-size: 10px;
+  height: 55px;
+  align-content: center;
+}
+
+.footer_all a{
+  font-size: 12px;
+  padding: 25px;
+  text-decoration: none;
+  color: white;
+}
+.footer_all a:hover{
+  font-size: 13px;
+  color: antiquewhite;
+}
