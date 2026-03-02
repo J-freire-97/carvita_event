@@ -1,7 +1,7 @@
 <?php
 
 require_once "_helpers/data_base.php";
-require_once "_helpers/helper_db.php";
+// require_once "_helpers/helper_db.php";
 
 ?>
 
