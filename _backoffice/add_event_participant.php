@@ -94,7 +94,7 @@ if ($form) {
           'event_name'  => $event_name,
           'event_location' => $location,
           'event_date' => $event_date,
-          'checkin_url' => $checkin_url,0o
+          'checkin_url' => $checkin_url,
         ]);
 
         $ok = send_email_outlook(
