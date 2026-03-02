@@ -24,7 +24,7 @@ function send_email_outlook($cfg, $to_email, $to_name, $subject, $html, $qr_path
     $mail->isHTML(true);
     $mail->Subject = $subject;
 
-    // QR no email: aceita URL (recomendado) ou ficheiro local
+    // QR no email
     if ($qr_path) {
       if (preg_match('~^https?://~i', $qr_path)) {
         // QR é URL público
@@ -53,7 +53,6 @@ function send_email_outlook($cfg, $to_email, $to_name, $subject, $html, $qr_path
 }
 
 function build_invitation_html($v){
-    // mantém segurança
     $title = htmlspecialchars($v['title'] ?? '');
     $first = htmlspecialchars($v['first_name'] ?? '');
     $full = htmlspecialchars($v['full_name'] ?? '');
@@ -65,7 +64,6 @@ function build_invitation_html($v){
 
     $checkin_url = $v['checkin_url'] ?? '';
 
-    // HTML simples (sem CSS externo porque não funciona em email)
     return "
       <h2>$event</h2>
       <p>Dear, $title $full,</p>
@@ -90,3 +88,32 @@ function build_invitation_html($v){
         <p>Best regards,<br>The CarVita Team</p>
     ";
 }
+
+function build_event_summary_html($v){
+  $title = htmlspecialchars($v['title'] ?? '');
+  $full = htmlspecialchars($v['full_name'] ?? '');
+  $company = htmlspecialchars($v['company'] ?? '');
+  $email = htmlspecialchars($v['email'] ?? '')
+  $event = htmlspecialchars($v['event_name'] ?? 'Event');
+  $location = htmlspecialchars($v['event_location'] ?? '');
+
+  return "
+    <h2>$event</h2>
+    <p>Dear, $title $full,</p>
+
+    <p><b>Participant details:</b><br>
+      Name: $full<br>
+      Company: $company<br>
+      Email: $email
+    </p>
+
+    <p><b>Event details:</b><br>
+      Event Name: $event<br>
+      Location: $location<br>
+    </p>
+
+    <p>Best regards,<br>The CarVita Team</p>
+  ";
+}
+
+?>
