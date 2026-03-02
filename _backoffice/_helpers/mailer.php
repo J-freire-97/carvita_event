@@ -93,7 +93,7 @@ function build_event_summary_html($v){
   $title = htmlspecialchars($v['title'] ?? '');
   $full = htmlspecialchars($v['full_name'] ?? '');
   $company = htmlspecialchars($v['company'] ?? '');
-  $email = htmlspecialchars($v['email'] ?? '')
+  $email = htmlspecialchars($v['email'] ?? '');
   $event = htmlspecialchars($v['event_name'] ?? 'Event');
   $location = htmlspecialchars($v['event_location'] ?? '');
 
