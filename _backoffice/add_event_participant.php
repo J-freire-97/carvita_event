@@ -1,4 +1,6 @@
 <?php
+ob_start();
+
 $current_page = "event";
 require_once 'components/header.php';
 require_once '_helpers/mailer.php';
@@ -12,7 +14,7 @@ $msg_type = null;
 $msg_text = null;
 
 // 1) Buscar todos os participantes
-$all = $pdo->query("SELECT id, title, first_name, last_name, company, email FROM participants ORDER BY last_name, first_name")->fetchAll(PDO::FETCH_ASSOC);
+$all = $pdo->query("SELECT * FROM participants ORDER BY last_name, first_name")->fetchAll(PDO::FETCH_ASSOC);
 
 // 2) Buscar IDs que já estão neste evento
 $stmt = $pdo->prepare("SELECT participant_id FROM event_participants WHERE event_id = ?");
@@ -49,7 +51,7 @@ if ($form) {
 
 
     // 2) statement para buscar participante
-    $stmtP = $pdo->prepare("SELECT title, first_name, last_name, company, email FROM participants WHERE id = ? LIMIT 1");
+    $stmtP = $pdo->prepare("SELECT * FROM participants WHERE id = ? LIMIT 1");
 
     $sent = 0;
     $failed = 0;
@@ -92,8 +94,7 @@ if ($form) {
           'event_name'  => $event_name,
           'event_location' => $location,
           'event_date' => $event_date,
-          'checkin_url' => $checkin_url,
-          // 'qr_img' => $qr_img,
+          'checkin_url' => $checkin_url,0o
         ]);
 
         $ok = send_email_outlook(
@@ -120,6 +121,8 @@ if ($form) {
     }
   }
 }
+
+ob_end_flush();
 
 ?>
 
