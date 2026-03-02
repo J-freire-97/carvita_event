@@ -14,6 +14,10 @@ try {
   $pdo = new PDO($dsn, $base_dados["user"], $base_dados["pass"], [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+  
+    // SSL (Railway costuma usar TLS; certificado pode ser self-signed)
+    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+    PDO::MYSQL_ATTR_SSL_CA => null,
   ]);
 } catch (PDOException $e) {
   die("DB connection failed: " . $e->getMessage());
