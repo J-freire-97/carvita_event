@@ -1,6 +1,5 @@
 <?php
 $current_page = "participants";
-require_once 'components/header.php';
 
 $form = ($_SERVER['REQUEST_METHOD'] === 'POST');
 
@@ -45,6 +44,9 @@ if ($form) {
     }
   }
 }
+
+require_once 'components/header.php';
+
 ?>
 
 <div class="modal_overlay">

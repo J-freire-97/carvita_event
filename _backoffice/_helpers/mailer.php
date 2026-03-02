@@ -79,8 +79,8 @@ function build_invitation_html($v){
 
 
       <p><b>QR Code for entrance:</b></p>
-      <p><a href=\"$checkin_url\" target=\"_blank\" rel=\"noopener noreferrer\">$checkin_url</a></p>
-      <img src="{{QR_IMAGE}}" width="220" alt="QR Code">
-      <p>Best regards,<br>The CarVita Team</p>
+        <p><a href='$checkin_url' target='_blank' rel='noopener noreferrer'>$checkin_url</a></p>
+        <img src='$qr_img' width='220' alt='QR Code'>
+        <p>Best regards,<br>The CarVita Team</p>
     ";
 }
