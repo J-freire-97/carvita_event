@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require_once '../_helpers/data_base.php';
+require_once __DIR__ . '/_helpers/data_base.php';
 
 $email = $_POST['email'] ?? '';
 $password = $_POST['password'] ?? '';
