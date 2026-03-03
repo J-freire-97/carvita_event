@@ -52,6 +52,27 @@ body.login_page button:hover {
   cursor: pointer;
 }
 
+/* Mensagem de erro no login (tipo projeto antigo) */
+body.login_page .login_error{
+  color: #d60000;
+  font-weight: 700;
+  margin: 10px 0 20px 0;
+  text-align: center;
+}
+
+/* No login, o header não deve ser sidebar */
+body.login_page .navbar{
+  width: 100%;
+  padding: 20px;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+body.login_page .navbar img{
+  max-width: 220px;
+  margin: 0;
+}
+
 
 
 

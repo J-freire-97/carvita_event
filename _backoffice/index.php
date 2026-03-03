@@ -27,6 +27,10 @@ if (isset($_SESSION['admin'])) {
 
     <h1>Backoffice-Anmeldung</h1>
 
+    <?php if (!empty($_GET['error'])): ?>
+      <div class="login_error">Login inválido!</div>
+    <?php endif; ?>
+
 
     <form method="post" action="verify_login.php">
       <label>
