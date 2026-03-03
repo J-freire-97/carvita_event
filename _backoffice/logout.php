@@ -1,10 +1,13 @@
 <?php
 
-function logout(){
-  session_destroy();
-  header("Location: index.php");
-}
+session_start();
 
-logout()
+// limpa a sessão
+$_SESSION = [];
+session_destroy();
+
+// redireciona
+header("Location: index.php");
+exit;
 
 ?>
