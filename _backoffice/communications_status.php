@@ -84,7 +84,6 @@ $rows = select_sql($sql);
       <tbody>
         <?php foreach ($rows as $r):
 
-          // Só duas labels aqui como no print
           if ((int)$r['status'] === 2) {
             $label = 'Zugesagt';       // PT-PT: Confirmado
             $class = 'badge_success';

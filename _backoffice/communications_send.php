@@ -2,7 +2,7 @@
 $current_page = "communications";
 require_once 'components/header.php';
 
-require_once 'mailer.php';
+require_once '_helpers/mailer.php';
 $cfg = require '_helpers/config_email.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
