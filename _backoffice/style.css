@@ -63,7 +63,8 @@ body{
   border-radius: 15px;
   margin-bottom: 12px;
 }
-.navbar .menu a .logout_button{
+.navbar .menu .logout_button{
+  margin-top: 50px;
   background-color: rgb(108, 2, 2);
   color: #bdbdbd;
 }
