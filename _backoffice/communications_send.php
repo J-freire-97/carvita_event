@@ -1,4 +1,6 @@
 <?php
+ob_start();
+
 $current_page = "communications";
 require_once 'components/header.php';
 
@@ -83,4 +85,5 @@ foreach ($recipients as $r) {
 header("Location: communications_status.php?email_id=" . $mail_id);
 exit;
 
+ob_end_flush();
 ?>

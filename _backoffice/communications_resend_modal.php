@@ -1,4 +1,6 @@
 <?php
+ob_start();
+
 $current_page = "communications";
 require_once 'components/header.php';
 
@@ -14,6 +16,8 @@ if (!$mail) {
 
 // lista de recipients deste email
 $rows = select_sql("SELECT ep.id AS event_participant_id, p.title, p.first_name, p.last_name, p.company, p.email, ep.status FROM email_recipients er JOIN event_participants ep ON ep.id = er.event_participant_id JOIN participants p ON p.id = ep.participant_id WHERE er.mail_id = $email_id GROUP BY ep.id");
+
+ob_end_flush();
 ?>
 
 <div class="modal_overlay">
