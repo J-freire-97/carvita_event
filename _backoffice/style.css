@@ -159,7 +159,7 @@ body{
   justify-content: center;
   color: white;
 }
-._submenu ._add_new a:hover{
+._submenu ._add_new a, button:hover{
   background-color: #3b8ca3;
   color: #f7f9fb;
 }
