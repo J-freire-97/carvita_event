@@ -1,6 +1,7 @@
 <?php
 
 require_once "_helpers/data_base.php";
+require_once "auth.php";
 // require_once "_helpers/helper_db.php";
 
 ?>
