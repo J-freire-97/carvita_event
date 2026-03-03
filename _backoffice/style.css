@@ -162,6 +162,8 @@ body{
 ._submenu ._add_new button:hover{
   background-color: #3b8ca3;
   color: #f7f9fb;
+  cursor: pointer;
+  border: none;
 }
 ._submenu ._add_new a:hover{
   background-color: #3b8ca3;
