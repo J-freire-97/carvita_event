@@ -44,7 +44,7 @@ require_once '_helpers/event_participants_helper.php';
 
         <div class="_add_new">
           <a href="event.php"><span class="add">↩</span>Zurück</a>
-          <button onclick="openQR()"><span class="add">⛶</span>Ticket scannenTicket scannen</button>
+          <button onclick="openQR()"><span class="add">⛶</span>Ticket scannen</button>
           <!-- <a href="participants_new.php"><span class="add">⛶</span>Ticket scannen</a> -->
           <a href="add_event_participant.php?event_id=<?= $event_id ?>"><span class="add">+</span>Teilnehmer hinzufügen</a>
         </div>
