@@ -18,7 +18,7 @@ if (isset($_SESSION['admin'])) {
 </head>
 <body class="login_page">
 
-  <header class="navbar">
+  <header>
     <img src="images/logo_header.png" alt="">
   </header>
 
