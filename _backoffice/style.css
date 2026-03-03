@@ -9,6 +9,7 @@
 }
 
 .login_page input{
+  margin: auto;
   border-radius: 20px;
   padding: 5px 15px;
   border: 1px solid darkblue;

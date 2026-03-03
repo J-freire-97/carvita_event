@@ -25,33 +25,3 @@ header('Location: event.php');
 exit;
 
 ?>
-
-session_start();
-
-function fazer_login($login, $senha){
-  global $pdo;
-
-  $query = $pdo->prepare("SELECT * FROM colaboradores WHERE login=?");
-  $query->execute([$login]);
-  $usuario = $query->fetch(PDO::FETCH_ASSOC);
-
-  if(!empty($usuario) && password_verify($senha, $usuario["senha"])){
-    $_SESSION["usuario"] = $usuario;
-    return true;
-  }
-  else{
-    return false;
-  }
-}
-
-function verificar_login(){
-  if(!empty($_SESSION["usuario"])){return $_SESSION["usuario"];}
-  else{
-    header("Location: index.php");
-  }
-}
-
-function logout(){
-  session_destroy();
-  header("Location: sair.php");
-}
