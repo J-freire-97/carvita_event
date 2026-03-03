@@ -4,7 +4,7 @@ session_start();
 require_once __DIR__ . '/_helpers/data_base.php';
 
 $email = $_POST['email'] ?? '';
-$password = $_POST['password'] ?? '';
+$password = $_POST['senha'] ?? '';
 
 $stmt = $pdo->prepare("SELECT * FROM _backoffice WHERE login = ?");
 $stmt->execute([$email]);
