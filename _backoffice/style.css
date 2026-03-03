@@ -142,7 +142,7 @@ body{
   display: inline-flex;
   gap: 10px;
 }
-._submenu ._add_new a, button{
+._submenu ._add_new a button{
   display: flex;
   align-items: center;
   justify-content: center;
