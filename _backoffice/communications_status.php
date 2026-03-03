@@ -1,4 +1,6 @@
 <?php
+ob_start();
+
 $current_page = "communications";
 require_once 'components/header.php';
 
@@ -42,6 +44,8 @@ $offset = ($page - 1) * $limit;
 // dados
 $sql = "SELECT p.title, p.first_name, p.last_name, p.company, p.email, ep.status FROM email_recipients er JOIN event_participants ep ON ep.id = er.event_participant_id JOIN participants p ON p.id = ep.participant_id $where LIMIT $limit OFFSET $offset";
 $rows = select_sql($sql);
+
+ob_end_flush();
 ?>
 
 <main class="main_content">
