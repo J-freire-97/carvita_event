@@ -30,7 +30,7 @@ if (isset($_SESSION['admin'])) {
     <h1>Backoffice-Anmeldung</h1>
 
 
-    <form method="post" action="event.php">
+    <form method="post" action="verify_login.php">
       <label>
         Email
         <br>
