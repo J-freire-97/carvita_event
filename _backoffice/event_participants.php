@@ -5,6 +5,14 @@ require_once 'components/header.php';
 require_once '_helpers/event_participants_helper.php'; 
 
 ?>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <div id="qrModal" class="qr-modal" style="display:none;">
+      <div class="qr-modal-content">
+        <div id="qr-reader" style="width:300px;"></div>
+        <button onclick="closeQR()">Fechar</button>
+      </div>
+    </div>
 
     <main class="main_content">
       <?php ?>
@@ -36,7 +44,8 @@ require_once '_helpers/event_participants_helper.php';
 
         <div class="_add_new">
           <a href="event.php"><span class="add">↩</span>Zurück</a>
-          <a href="participants_new.php"><span class="add">⛶</span>Ticket scannen</a>
+          <button onclick="openQR()"><span class="add">⛶</span>Ticket scannenTicket scannen</button>
+          <!-- <a href="participants_new.php"><span class="add">⛶</span>Ticket scannen</a> -->
           <a href="add_event_participant.php?event_id=<?= $event_id ?>"><span class="add">+</span>Teilnehmer hinzufügen</a>
         </div>
 
@@ -113,5 +122,44 @@ require_once '_helpers/event_participants_helper.php';
     </main>
 
   </div>
+
+  <script>
+
+    let qrScanner;
+
+    function openQR() {
+        document.getElementById("qrModal").style.display = "flex";
+
+        qrScanner = new Html5Qrcode("qr-reader");
+
+        qrScanner.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: 250 },
+            qrCodeMessage => {
+
+                qrScanner.stop();
+
+                let url = new URL(qrCodeMessage);
+                let code = url.searchParams.get("code");
+
+                fetch("checkin.php?code=" + code)
+                    .then(res => res.text())
+                    .then(data => {
+                        alert("Check-in realizado!");
+                        location.reload();
+                    });
+            },
+            errorMessage => {}
+        );
+    }
+
+    function closeQR() {
+        if (qrScanner) {
+            qrScanner.stop();
+        }
+        document.getElementById("qrModal").style.display = "none";
+    }
+    
+  </script>
 
 <?php require_once 'components/footer.php'; ?>
