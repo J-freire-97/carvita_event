@@ -45,7 +45,6 @@ require_once '_helpers/event_participants_helper.php';
         <div class="_add_new">
           <a href="event.php"><span class="add">↩</span>Zurück</a>
           <button onclick="openQR()"><span class="add">⛶</span>Ticket scannen</button>
-          <!-- <a href="participants_new.php"><span class="add">⛶</span>Ticket scannen</a> -->
           <a href="add_event_participant.php?event_id=<?= $event_id ?>"><span class="add">+</span>Teilnehmer hinzufügen</a>
         </div>
 
@@ -70,17 +69,17 @@ require_once '_helpers/event_participants_helper.php';
             
             switch($p['status']){
               case 2:
-                  $label = 'Zugesagt';
+                  $label = '✓ Zugesagt';
                   $class = 'badge_success';
               break;
           
               case 3:
-                  $label = 'Eingecheckt';
+                  $label = '★ Eingecheckt';
                   $class = 'badge_purple';
               break;
           
               case 1:
-                  $label = 'Eingeladen';
+                  $label = '◌ Eingeladen';
                   $class = 'badge_blue';
               break;
           
