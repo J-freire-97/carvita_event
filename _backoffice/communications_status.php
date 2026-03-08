@@ -3,7 +3,7 @@ $current_page = "communications";
 require_once 'components/header.php';
 
 $email_id = isset($_GET['email_id']) ? (int)$_GET['email_id'] : 0;
-$status = $_GET['status'] ?? 'all'; // all | accepted | pending
+$status = $_GET['status'] ?? 'all'; 
 
 // buscar email + evento
 $sql_mail = "SELECT e.*, ev.name AS event_name FROM email e JOIN events ev ON ev.id = e.event_id WHERE e.id = $email_id";
@@ -46,7 +46,6 @@ $rows = select_sql($sql);
 
 <main class="main_content">
   <h1>Be: <?= htmlspecialchars($mail['subject']) ?></h1>
-  <!-- PT-PT: Re: <?= htmlspecialchars($mail['subject']) ?> -->
 
   <div class="_submenu">
 
@@ -85,11 +84,11 @@ $rows = select_sql($sql);
         <?php foreach ($rows as $r):
 
           if ((int)$r['status'] === 2) {
-            $label = 'Zugesagt';       // PT-PT: Confirmado
+            $label = 'Zugesagt';       // Confirmado
             $class = 'badge_success';
           } else {
-            $label = 'Ausstehend';     // PT-PT: Pendente
-            $class = 'badge_blue';     // usa a tua badge azul
+            $label = 'Ausstehend';     // Pendente
+            $class = 'badge_blue';
           }
         ?>
           <tr>

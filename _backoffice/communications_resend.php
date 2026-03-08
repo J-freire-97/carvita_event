@@ -3,7 +3,6 @@ ob_start();
 
 $current_page = "communications";
 require_once 'components/header.php';
-
 require_once '_helpers/mailer.php';
 $cfg = require '_helpers/config_email.php';
 

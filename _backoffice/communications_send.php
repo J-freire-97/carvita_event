@@ -35,7 +35,7 @@ if (!$ev) {
 }
 
 $subject = $template['subject'];
-$body    = $template['body']; // guardamos na BD (mesmo que o HTML enviado seja gerado no mailer)
+$body    = $template['body']; // guardar na BD (mesmo que o HTML enviado seja gerado no mailer)
 
 // 3) Criar registo de email para este evento
 $stmt = $pdo->prepare("INSERT INTO email (event_id, subject, body, sent_at) VALUES (?, ?, ?, NOW())");
@@ -77,10 +77,6 @@ foreach ($recipients as $r) {
   // envia SEM QR (último argumento null)
   send_email_outlook($cfg, $r['email'], $full_name, $subject, $html, null);
 }
-
-// 6) (Opcional) guardar mail_id nos event_participants (tens essa coluna)
-// $upd = $pdo->prepare("UPDATE event_participants SET mail_id = ? WHERE event_id = ?");
-// $upd->execute([$mail_id, $event_id]);
 
 header("Location: communications_status.php?email_id=" . $mail_id);
 exit;

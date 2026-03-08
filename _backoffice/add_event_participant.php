@@ -13,16 +13,16 @@ $form = ($_SERVER['REQUEST_METHOD'] === 'POST');
 $msg_type = null;
 $msg_text = null;
 
-// 1) Buscar todos os participantes
+// 1) Select all participants
 $all = $pdo->query("SELECT * FROM participants ORDER BY last_name, first_name")->fetchAll(PDO::FETCH_ASSOC);
 
-// 2) Buscar IDs que já estão neste evento
+// 2) Participansts who are already at the event
 $stmt = $pdo->prepare("SELECT participant_id FROM event_participants WHERE event_id = ?");
 $stmt->execute([$event_id]);
 $in_event_ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
 $in_event_map = array_flip($in_event_ids); // para lookup rápido
 
-// 3) Se submeteu: inserir selecionados que ainda não estão no evento
+// 3) Select participants to add to the event Se submeteu: inserir selecionados que ainda não estão no evento
 if ($form) {
   $selected = $_POST['participant_ids'] ?? [];
   if (!is_array($selected)) $selected = [];
@@ -38,10 +38,10 @@ if ($form) {
 
   if (count($to_insert) === 0){
     $msg_type = 'error';
-    $msg_text = 'Keine neuen Teilnehmer ausgewählt.'; // PT-PT: Nenhum novo selecionado
+    $msg_text = 'Keine neuen Teilnehmer ausgewählt.'; // Nenhum novo selecionado
   } 
   else{
-    // 1) buscar nome do evento
+    // 1) Event name
     $stmtEv = $pdo->prepare("SELECT * FROM events WHERE id = ? LIMIT 1");
     $stmtEv->execute([$event_id]);
     $ev = $stmtEv->fetch(PDO::FETCH_ASSOC);
@@ -130,7 +130,6 @@ ob_end_flush();
     <div class="modal_card modal_card_table">
 
       <h1 class="modal_title">Teilnehmer auswählen</h1>
-      <!-- PT-PT: Selecionar participantes -->
 
       <?php if ($msg_text): ?>
       <br>
@@ -171,10 +170,10 @@ ob_end_flush();
               <td>
               <?php if ($already): ?>
                 <span class="badge badge-success">Bereits im Event</span>
-                <!-- PT-PT: Já está no evento -->
+                <!-- Já está no evento -->
               <?php else: ?>
                 <span class="badge badge-secondary">Nicht im Event</span>
-                <!-- PT-PT: Ainda não está no evento -->
+                <!-- Ainda não está no evento -->
               <?php endif; ?>
               </td>
             </tr>
@@ -186,12 +185,12 @@ ob_end_flush();
 
       <div class="modal_actions">
         <a class="btn_secondary" href="event_participants.php?event_id=<?= $event_id ?>">Abbrechen</a>
-        <!-- PT-PT: Cancelar -->
+        <!-- Cancelar -->
         <button class="btn_primary" type="submit">
         <span class="btn_icon">+</span>
         Hinzufügen
         </button>
-        <!-- PT-PT: Adicionar -->
+        <!-- Adicionar -->
       </div>
 
       </form>
