@@ -398,7 +398,7 @@ body{
 
 
 
-/* ========== MODAL GRANDE (para tabelas) ========== */
+/* ========== MODAL (for tables) ========== */
 
 .modal_card_table {
   background: #fff;
@@ -430,9 +430,9 @@ body{
   color: red;
 }
 
-/* SCAN */
+/* ========== SCAN ========== */
 
-.qr-modal {
+/* .qr_modal {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.6);
@@ -442,9 +442,9 @@ body{
   z-index: 9999;
 }
 
-.qr-modal-content {
+.qr_modal_content {
   background: white;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
-}
+} */

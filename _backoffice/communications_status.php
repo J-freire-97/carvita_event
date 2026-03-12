@@ -5,7 +5,7 @@ require_once 'components/header.php';
 $email_id = isset($_GET['email_id']) ? (int)$_GET['email_id'] : 0;
 $status = $_GET['status'] ?? 'all'; 
 
-// buscar email + evento
+// email + evento
 $sql_mail = "SELECT e.*, ev.name AS event_name FROM email e JOIN events ev ON ev.id = e.event_id WHERE e.id = $email_id";
 $mail = select_sql_unic($sql_mail);
 
