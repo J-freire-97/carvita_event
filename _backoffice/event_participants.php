@@ -127,7 +127,7 @@ require_once '_helpers/event_participants_helper.php';
     let qrScanner;
 
     function openQR() {
-        document.getElementById("qr_modal").style.display = "flex";
+        document.getElementById("qrModal").style.display = "flex";
 
         qrScanner = new Html5Qrcode("qr-reader");
 
@@ -156,7 +156,7 @@ require_once '_helpers/event_participants_helper.php';
         if (qrScanner) {
             qrScanner.stop();
         }
-        document.getElementById("qr_modal").style.display = "none";
+        document.getElementById("qrModal").style.display = "none";
     }
     
   </script>
