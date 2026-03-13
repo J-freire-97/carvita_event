@@ -10,12 +10,7 @@ if ($code === '') {
 }
 
 // impedir “re-check-in”, podes usar status <> 3
-$stmt = $pdo->prepare("
-    UPDATE event_participants
-    SET status = 3
-    WHERE qr_code = ?
-    LIMIT 1
-");
+$stmt = $pdo->prepare("UPDATE event_participants SET status = 3 WHERE qr_code = ? LIMIT 1");
 $stmt->execute([$code]);
 
 $ok = ($stmt->rowCount() > 0);

@@ -7,10 +7,10 @@ require_once '_helpers/event_participants_helper.php';
 ?>
   <script src="https://unpkg.com/html5-qrcode"></script>
 
-    <div id="qrModal" class="qr-modal" style="display:none;">
-      <div class="qr-modal-content">
+    <div id="qrModal" class="qr_modal" style="display:none;">
+      <div class="qr_modal_content">
         <div id="qr-reader" style="width:300px;"></div>
-        <button onclick="closeQR()">Fechar</button>
+        <button onclick="closeQR()">Schließen</button>
       </div>
     </div>
 
