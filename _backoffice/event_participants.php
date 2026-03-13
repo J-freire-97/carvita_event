@@ -10,7 +10,7 @@ require_once '_helpers/event_participants_helper.php';
     <div id="qrModal" class="qr_modal" style="display:none;">
       <div class="qr_modal_content">
         <div id="qr-reader" style="width:300px;"></div>
-        <button onclick="closeQR()">Schließen</button>
+        <button type="button" onclick="closeQR()">Schließen</button>
       </div>
     </div>
 
@@ -153,10 +153,19 @@ require_once '_helpers/event_participants_helper.php';
     }
 
     function closeQR() {
-        if (qrScanner) {
-            qrScanner.stop();
-        }
-        document.getElementById("qrModal").style.display = "none";
+      const modal = document.getElementById("qrModal");
+
+      if (qrScanner) {
+        qrScanner.stop()
+          .then(() => {
+            modal.style.display = "none";
+          })
+          .catch(() => {
+            modal.style.display = "none";
+          });
+      } else {
+        modal.style.display = "none";
+      }
     }
     
   </script>
