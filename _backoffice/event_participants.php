@@ -122,7 +122,7 @@ require_once '_helpers/event_participants_helper.php';
 
   </div>
 
-  <script>
+  <!-- <script>
 
     let qrScanner;
 
@@ -168,6 +168,81 @@ require_once '_helpers/event_participants_helper.php';
       }
     }
     
-  </script>
+  </script> -->
+  <script>
+    let qrScanner = null;
+    let qrRunning = false;
+
+    function openQR() {
+      const modal = document.getElementById("qrModal");
+      const reader = document.getElementById("qr-reader");
+
+      modal.style.display = "flex";
+      reader.innerHTML = "";
+
+      qrScanner = new Html5Qrcode("qr-reader");
+
+      qrScanner.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        (qrCodeMessage) => {
+          qrRunning = false;
+
+          qrScanner.stop()
+            .then(() => {
+              let code = "";
+
+              try {
+                let url = new URL(qrCodeMessage);
+                code = url.searchParams.get("code");
+              } catch (e) {
+                code = qrCodeMessage;
+              }
+
+              fetch("checkin.php?code=" + encodeURIComponent(code))
+                .then(res => res.text())
+                .then(data => {
+                  alert("Check-in realizado!");
+                  location.reload();
+                })
+                .catch(err => {
+                  alert("Erro ao fazer check-in.");
+                  console.error(err);
+                });
+            })
+            .catch(err => {
+              console.error("Erro ao parar scanner:", err);
+            });
+        },
+        (errorMessage) => {
+        }
+      )
+      .then(() => {
+        qrRunning = true;
+      })
+      .catch((err) => {
+        console.error("Erro ao abrir câmara:", err);
+        alert("Não foi possível abrir a câmara.");
+      });
+    }
+
+    function closeQR() {
+      const modal = document.getElementById("qrModal");
+
+      if (qrScanner && qrRunning) {
+        qrScanner.stop()
+          .then(() => {
+            qrRunning = false;
+            modal.style.display = "none";
+          })
+          .catch((err) => {
+            console.error("Erro ao fechar scanner:", err);
+            modal.style.display = "none";
+          });
+      } else {
+        modal.style.display = "none";
+      }
+    }
+</script>
 
 <?php require_once 'components/footer.php'; ?>
