@@ -29,14 +29,14 @@ if ($form) {
       exit;
 
     }
-    catch (Exception $e) {
-      $msg_type = 'error';
-      $msg_text = $e->getMessage();
-    } 
     // catch (Exception $e) {
     //   $msg_type = 'error';
-    //   $msg_text = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
-    // }
+    //   $msg_text = $e->getMessage();
+    // } 
+    catch (Exception $e) {
+      $msg_type = 'error';
+      $msg_text = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
+    }
   }
 }
 
