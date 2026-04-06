@@ -22,7 +22,7 @@ if ($form) {
       // Converter datetime-local -> "YYYY-MM-DD HH:MM:SS"
       $date_db = str_replace('T', ' ', $date) . ':00';
 
-      $stmt = $pdo->prepare("INSERT INTO events (name, date, location, created_at, updated_at) VALUES (?, ?, ?, NOW(), NULL) ");
+      $stmt = $pdo->prepare("INSERT INTO events (`name`, `date`, `location`, `created_at`, `updated_at`) VALUES (?, ?, ?, NOW(), NULL)");
       $stmt->execute([$name, $date_db, $location]);
 
       header("Location: event.php?success=1");
