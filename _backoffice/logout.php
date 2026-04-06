@@ -2,11 +2,11 @@
 
 session_start();
 
-// limpa a sessão
+// clean session
 $_SESSION = [];
 session_destroy();
 
-// redireciona
+// redirect
 header("Location: index.php");
 exit;
 

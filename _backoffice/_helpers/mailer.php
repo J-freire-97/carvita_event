@@ -24,13 +24,13 @@ function send_email_outlook($cfg, $to_email, $to_name, $subject, $html, $qr_path
     $mail->isHTML(true);
     $mail->Subject = $subject;
 
-    // QR no email
+    // QR email
     if ($qr_path) {
       if (preg_match('~^https?://~i', $qr_path)) {
-        // QR é URL público
+        // QR public URL
         $html = str_replace('{{QR_IMAGE}}', $qr_path, $html);
       } elseif (file_exists($qr_path)) {
-        // QR é ficheiro local -> embutir
+        // QR for local file 
         $mail->addEmbeddedImage($qr_path, 'qrcodecid', 'qrcode.png', 'base64', 'image/png');
         $html = str_replace('{{QR_IMAGE}}', 'cid:qrcodecid', $html);
       } else {

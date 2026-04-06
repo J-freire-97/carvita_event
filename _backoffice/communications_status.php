@@ -5,7 +5,7 @@ require_once 'components/header.php';
 $email_id = isset($_GET['email_id']) ? (int)$_GET['email_id'] : 0;
 $status = $_GET['status'] ?? 'all'; 
 
-// email + evento
+// email + event
 $sql_mail = "SELECT e.*, ev.name AS event_name FROM email e JOIN events ev ON ev.id = e.event_id WHERE e.id = $email_id";
 $mail = select_sql_unic($sql_mail);
 
@@ -15,7 +15,7 @@ if (!$mail) {
   exit;
 }
 
-// filtro
+// filter
 $where = "WHERE er.mail_id = $email_id";
 
 if ($status === 'accepted') {
@@ -24,7 +24,7 @@ if ($status === 'accepted') {
   $where .= " AND ep.status != 2";
 }
 
-// paginação
+// pagination
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 10;
 
@@ -39,7 +39,7 @@ if ($page > $total_pages) $page = $total_pages;
 
 $offset = ($page - 1) * $limit;
 
-// dados
+// data
 $sql = "SELECT p.title, p.first_name, p.last_name, p.company, p.email, ep.status FROM email_recipients er JOIN event_participants ep ON ep.id = er.event_participant_id JOIN participants p ON p.id = ep.participant_id $where LIMIT $limit OFFSET $offset";
 $rows = select_sql($sql);
 ?>
@@ -84,10 +84,10 @@ $rows = select_sql($sql);
         <?php foreach ($rows as $r):
 
           if ((int)$r['status'] === 2) {
-            $label = 'Zugesagt';       // Confirmado
+            $label = 'Zugesagt'; 
             $class = 'badge_success';
           } else {
-            $label = 'Ausstehend';     // Pendente
+            $label = 'Ausstehend';
             $class = 'badge_blue';
           }
         ?>

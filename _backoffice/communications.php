@@ -3,7 +3,7 @@
 $current_page = "communications";
 require_once 'components/header.php'; 
 
-$filter = $_GET['filter'] ?? 'all'; // all | future | past
+$filter = $_GET['filter'] ?? 'all';
 
 $where = "";
 if ($filter === 'future') {

@@ -3,7 +3,7 @@
 $current_page = "event";
 require_once 'components/header.php'; 
 
-$filter = $_GET['filter'] ?? 'all'; // all | future | past
+$filter = $_GET['filter'] ?? 'all';
 
 $where = "";
 if ($filter === 'future') {
@@ -52,11 +52,11 @@ $events = select_sql($sql);
           <?php foreach($events as $e): ?>
 
             <?php
-              // Contar convidados (todos os participantes desse evento)
+              // All participants in this event)
               $sql_invited = "SELECT COUNT(*) as total FROM event_participants WHERE event_id = ".$e['id'];
               $invited = select_sql_unic($sql_invited);
 
-              // Contar confirmados
+              // Confirmed attendees
               $sql_confirmed = "SELECT COUNT(*) as total FROM event_participants WHERE event_id = ".$e['id']." AND status = 2";
               $confirmed = select_sql_unic($sql_confirmed);
             ?>

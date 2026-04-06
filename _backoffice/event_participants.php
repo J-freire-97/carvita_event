@@ -122,53 +122,6 @@ require_once '_helpers/event_participants_helper.php';
 
   </div>
 
-  <!-- <script>
-
-    let qrScanner;
-
-    function openQR() {
-      document.getElementById("qrModal").style.display = "flex";
-
-      qrScanner = new Html5Qrcode("qr-reader");
-
-      qrScanner.start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: 250 },
-        qrCodeMessage => {
-
-          qrScanner.stop();
-
-          let url = new URL(qrCodeMessage);
-          let code = url.searchParams.get("code");
-
-          fetch("checkin.php?code=" + code)
-            .then(res => res.text())
-            .then(data => {
-                alert("Check-in realizado!");
-                location.reload();
-            });
-        },
-        errorMessage => {}
-      );
-    }
-
-    function closeQR() {
-      const modal = document.getElementById("qrModal");
-
-      if (qrScanner) {
-        qrScanner.stop()
-          .then(() => {
-            modal.style.display = "none";
-          })
-          .catch(() => {
-            modal.style.display = "none";
-          });
-      } else {
-        modal.style.display = "none";
-      }
-    }
-    
-  </script> -->
   <script>
     let qrScanner = null;
     let qrRunning = false;

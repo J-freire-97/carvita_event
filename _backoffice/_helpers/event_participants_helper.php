@@ -5,17 +5,11 @@ $status = isset($_GET['status']) ? $_GET['status'] : 'all';
 
 $where = "WHERE ep.event_id = $event_id";
 
-if($status == 'invited'){
-    $where .= " AND ep.status = 1";
-}
+if($status == 'invited'){$where .= " AND ep.status = 1";}
 
-if($status == 'confirmed'){
-  $where .= " AND ep.status = 2";
-}
+if($status == 'confirmed'){$where .= " AND ep.status = 2";}
 
-if($status == 'checked'){
-    $where .= " AND ep.status = 3";
-}
+if($status == 'checked'){$where .= " AND ep.status = 3";}
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 10;

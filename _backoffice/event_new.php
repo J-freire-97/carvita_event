@@ -11,7 +11,7 @@ $msg_text = null;
 
 if ($form) {
   $name = trim($_POST['name'] ?? '');
-  $date = trim($_POST['date'] ?? '');      // formato: YYYY-MM-DDTHH:MM (se usarmos datetime-local)
+  $date = trim($_POST['date'] ?? '');   
   $location = trim($_POST['location'] ?? '');
 
   if ($name === '' || $date === '' || $location === '') {
@@ -19,7 +19,7 @@ if ($form) {
     $msg_text = 'Bitte füllen Sie alle Pflichtfelder aus.';
   } else {
     try {
-      // Converter datetime-local -> "YYYY-MM-DD HH:MM:SS"
+      // Convert datetime-local -> "YYYY-MM-DD HH:MM:SS"
       $date_db = str_replace('T', ' ', $date) . ':00';
 
       $stmt = $pdo->prepare("INSERT INTO events (`name`, `date`, `location`, `created_at`, `updated_at`) VALUES (?, ?, ?, NOW(), NOW())");
@@ -29,14 +29,16 @@ if ($form) {
       exit;
 
     }
-    // catch (Exception $e) {
-    //   $msg_type = 'error';
-    //   $msg_text = $e->getMessage();
-    // } 
     catch (Exception $e) {
       $msg_type = 'error';
       $msg_text = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
     }
+
+    // If error
+    // catch (Exception $e) {
+    //   $msg_type = 'error';
+    //   $msg_text = $e->getMessage();
+    // } 
   }
 }
 

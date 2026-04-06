@@ -6,7 +6,7 @@ require_once 'components/header.php';
 
 $email_id = isset($_GET['email_id']) ? (int)$_GET['email_id'] : 0;
 
-// email + evento (para mostrar no título)
+// email + event
 $mail = select_sql_unic("SELECT e.subject, ev.name AS event_name FROM email e JOIN events ev ON ev.id = e.event_id WHERE e.id = $email_id");
 
 if (!$mail) {
@@ -14,7 +14,7 @@ if (!$mail) {
   exit;
 }
 
-// lista de recipients deste email
+// List of recipients
 $rows = select_sql("SELECT ep.id AS event_participant_id, p.title, p.first_name, p.last_name, p.company, p.email, ep.status FROM email_recipients er JOIN event_participants ep ON ep.id = er.event_participant_id JOIN participants p ON p.id = ep.participant_id WHERE er.mail_id = $email_id GROUP BY ep.id");
 
 ob_end_flush();

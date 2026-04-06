@@ -7,7 +7,7 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 10;
 $offset = ($page - 1) * $limit;
 
-$group_filter = $_GET['group'] ?? 'all'; // all | Versicherung | Sachverständiger
+$group_filter = $_GET['group'] ?? 'all';
 
 $where = "";
 if ($group_filter !== 'all') {

@@ -20,14 +20,14 @@ if ($event_id <= 0 || $template_id <= 0) {
   exit;
 }
 
-// 1) Buscar template (subject/body)
+// Template (subject/body)
 $template = select_sql_unic("SELECT subject, body FROM email WHERE id = $template_id");
 if (!$template) {
   header("Location: communications_send_modal.php");
   exit;
 }
 
-// 2) Buscar evento (inclui localização)
+// Event
 $ev = select_sql_unic("SELECT id, name, date, location FROM events WHERE id = $event_id");
 if (!$ev) {
   header("Location: communications_send_modal.php");
@@ -35,14 +35,14 @@ if (!$ev) {
 }
 
 $subject = $template['subject'];
-$body    = $template['body']; // guardar na BD (mesmo que o HTML enviado seja gerado no mailer)
+$body = $template['body']; 
 
-// 3) Criar registo de email para este evento
+// Create an email registration for this event
 $stmt = $pdo->prepare("INSERT INTO email (event_id, subject, body, sent_at) VALUES (?, ?, ?, NOW())");
 $stmt->execute([$event_id, $subject, $body]);
 $mail_id = (int)$pdo->lastInsertId();
 
-// 4) Buscar participantes do evento
+// Participants in event
 $recipients = select_sql("SELECT ep.id AS event_participant_id, p.title, p.first_name, p.last_name, p.company, p.email FROM event_participants ep JOIN participants p ON p.id = ep.participant_id WHERE ep.event_id = $event_id ORDER BY p.last_name, p.first_name");
 
 if (!$recipients) {
@@ -50,19 +50,19 @@ if (!$recipients) {
   exit;
 }
 
-// 5) Inserir histórico + enviar email (SEM QR)
+// Send email (NO QR)
 $ins = $pdo->prepare("INSERT INTO email_recipients (mail_id, event_participant_id, sent_at, opened_at) VALUES (?, ?, NOW(), NULL)");
 
 foreach ($recipients as $r) {
   $ep_id = (int)$r['event_participant_id'];
 
-  // histórico
+  // history
   $ins->execute([$mail_id, $ep_id]);
 
-  // nome para o mailer
+  // name for mailer
   $full_name = trim(($r['first_name'] ?? '') . ' ' . ($r['last_name'] ?? ''));
 
-  // HTML sem QR: só participant + event + location
+  // HTML no QR: participant + event + location
   $v = [
     'title' => $r['title'] ?? '',
     'full_name' => $full_name,
@@ -74,7 +74,7 @@ foreach ($recipients as $r) {
 
   $html = build_event_summary_html($v);
 
-  // envia SEM QR (último argumento null)
+  // NO QR CODE
   send_email_outlook($cfg, $r['email'], $full_name, $subject, $html, null);
 }
 

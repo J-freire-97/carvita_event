@@ -19,24 +19,24 @@ if ($form) {
 
   if ($title === '' || $first_name === '' || $last_name === '' || $email === '') {
     $msg_type = 'error';
-    $msg_text = 'Bitte füllen Sie alle Pflichtfelder aus.'; // Preencha os campos obrigatórios
+    $msg_text = 'Bitte füllen Sie alle Pflichtfelder aus.';
   } else {
 
-    // Verificar se o email já existe
+    // Check if e-mail exists
     $stmt = $pdo->prepare("SELECT id FROM participants WHERE email = ? LIMIT 1");
     $stmt->execute([$email]);
     $existing = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($existing) {
       $msg_type = 'error';
-      $msg_text = 'Diese E-Mail-Adresse ist bereits registriert.'; // Este email já está registado
+      $msg_text = 'Diese E-Mail-Adresse ist bereits registriert.'; 
     } else {
       try {
-        // Inserir participante
+        // Insert participant
         $stmt = $pdo->prepare("INSERT INTO participants (title, first_name, last_name, company, email, `group`) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->execute([$title, $first_name, $last_name, $company, $email, $group]);
 
-        // Sucesso -> voltar à lista com flag
+        // Success
         header("Location: participants.php?success=1");
         exit;
 

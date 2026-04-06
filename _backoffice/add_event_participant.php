@@ -13,16 +13,16 @@ $form = ($_SERVER['REQUEST_METHOD'] === 'POST');
 $msg_type = null;
 $msg_text = null;
 
-// 1) Select all participants
+// Select all participants
 $all = $pdo->query("SELECT * FROM participants ORDER BY last_name, first_name")->fetchAll(PDO::FETCH_ASSOC);
 
-// 2) Participansts who are already at the event
+// Participansts who are already at the event
 $stmt = $pdo->prepare("SELECT participant_id FROM event_participants WHERE event_id = ?");
 $stmt->execute([$event_id]);
 $in_event_ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
 $in_event_map = array_flip($in_event_ids); // para lookup rápido
 
-// 3) Select participants to add to the event Se submeteu: inserir selecionados que ainda não estão no evento
+// Select participants to add to the event 
 if ($form) {
   $selected = $_POST['participant_ids'] ?? [];
   if (!is_array($selected)) $selected = [];
@@ -38,10 +38,10 @@ if ($form) {
 
   if (count($to_insert) === 0){
     $msg_type = 'error';
-    $msg_text = 'Keine neuen Teilnehmer ausgewählt.'; // Nenhum novo selecionado
+    $msg_text = 'Keine neuen Teilnehmer ausgewählt.'; // No participant selected
   } 
   else{
-    // 1) Event name
+    // Event name
     $stmtEv = $pdo->prepare("SELECT * FROM events WHERE id = ? LIMIT 1");
     $stmtEv->execute([$event_id]);
     $ev = $stmtEv->fetch(PDO::FETCH_ASSOC);
@@ -50,7 +50,7 @@ if ($form) {
     $event_date = $ev['date'];
 
 
-    // 2) statement para buscar participante
+    // Search participants
     $stmtP = $pdo->prepare("SELECT * FROM participants WHERE id = ? LIMIT 1");
 
     $sent = 0;
@@ -59,10 +59,9 @@ if ($form) {
     try {
       $pdo->beginTransaction();
 
-      // INSERT com qr_code
       $stmtIns = $pdo->prepare("INSERT INTO event_participants (event_id, participant_id, status, qr_code, created_at) VALUES (?, ?, 1, ?, NOW())");
 
-      // guardamos tokens por participante
+      // one token for each participant
       $tokensByPid = [];
       $epIdByPid = [];
 
@@ -75,7 +74,7 @@ if ($form) {
 
       $pdo->commit();
 
-      // 3) enviar emails (fora da transação)
+      // send e-mail
       foreach ($to_insert as $pid){
         $stmtP->execute([$pid]);
         $p = $stmtP->fetch(PDO::FETCH_ASSOC);
@@ -109,7 +108,7 @@ if ($form) {
         if ($ok) $sent++; else $failed++;
       }
 
-      // 4) feedback + redirect
+      // feedback + redirect
       header("Location: event_participants.php?event_id={$event_id}&success=1&sent={$sent}&failed={$failed}");
       exit;
 
@@ -170,10 +169,10 @@ ob_end_flush();
               <td>
               <?php if ($already): ?>
                 <span class="badge badge-success">Bereits im Event</span>
-                <!-- Já está no evento -->
+                <!-- Already in event -->
               <?php else: ?>
                 <span class="badge badge-secondary">Nicht im Event</span>
-                <!-- Ainda não está no evento -->
+                <!-- Not in event -->
               <?php endif; ?>
               </td>
             </tr>
@@ -185,12 +184,12 @@ ob_end_flush();
 
       <div class="modal_actions">
         <a class="btn_secondary" href="event_participants.php?event_id=<?= $event_id ?>">Abbrechen</a>
-        <!-- Cancelar -->
+        <!-- Cancel -->
         <button class="btn_primary" type="submit">
         <span class="btn_icon">+</span>
         Hinzufügen
         </button>
-        <!-- Adicionar -->
+        <!-- Add -->
       </div>
 
       </form>

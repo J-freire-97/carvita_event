@@ -19,7 +19,7 @@ if ($email_id <= 0 || !is_array($ids) || count($ids) === 0) {
   exit;
 }
 
-// 1) Buscar email + evento (para subject + location)
+// Email + event
 $mail = select_sql_unic("SELECT e.subject, e.body, ev.name AS event_name, ev.location AS event_location FROM email e JOIN events ev ON ev.id = e.event_id WHERE e.id = $email_id");
 
 if (!$mail) {
@@ -29,7 +29,7 @@ if (!$mail) {
 
 $subject = $mail['subject'];
 
-// 2) Buscar destinatários selecionados
+// Search selected recipients
 $clean_ids = array_map('intval', $ids);
 $in = implode(',', $clean_ids);
 
@@ -40,19 +40,19 @@ if (!$recipients) {
   exit;
 }
 
-// 3) Inserir histórico + reenviar (SEM QR)
+// Resend (NO QR)
 $ins = $pdo->prepare("INSERT INTO email_recipients (mail_id, event_participant_id, sent_at, opened_at) VALUES (?, ?, NOW(), NULL)");
 
 foreach ($recipients as $r) {
   $ep_id = (int)$r['event_participant_id'];
 
-  // histórico
+  // history
   $ins->execute([$email_id, $ep_id]);
 
-  // nome
+  // name
   $full_name = trim(($r['first_name'] ?? '') . ' ' . ($r['last_name'] ?? ''));
 
-  // HTML sem QR: participant + event + location
+  // HTML no QR: participant + event + location
   $v = [
     'title' => $r['title'] ?? '',
     'full_name' => $full_name,
@@ -64,7 +64,7 @@ foreach ($recipients as $r) {
 
   $html = build_event_summary_html($v);
 
-  // envia SEM QR
+  // send with NO QR
   send_email_outlook($cfg, $r['email'], $full_name, $subject, $html, null);
 }
 

@@ -2,7 +2,7 @@
 $current_page = "communications";
 require_once 'components/header.php';
 
-// eventos + emails existentes
+// events + emails 
 $events = select_sql("SELECT * FROM events");
 $templates = select_sql("SELECT * FROM email");
 ?>
