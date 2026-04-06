@@ -28,10 +28,15 @@ if ($form) {
       header("Location: event.php?success=1");
       exit;
 
-    } catch (Exception $e) {
-      $msg_type = 'error';
-      $msg_text = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
     }
+    catch (Exception $e) {
+      $msg_type = 'error';
+      $msg_text = $e->getMessage();
+    } 
+    // catch (Exception $e) {
+    //   $msg_type = 'error';
+    //   $msg_text = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
+    // }
   }
 }
 
