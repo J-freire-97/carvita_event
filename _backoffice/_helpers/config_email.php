@@ -2,16 +2,16 @@
 
 return [
   // Outlook/Office365 SMTP
-  'host' => 'smtp.gmail.com',
-  'port' => 587,
+  'host' => 'HOST',
+  'port' => PORT,
 
   // credenciais (email que envia)
-  'username' => 'testecarvita@gmail.com',
-  'password' => 'wahjykkmbslgulrt',
+  'username' => 'USER_EMAIL',
+  'password' => 'PASSWORD',
 
   // remetente
-  'from_email' => 'testecarvita@gmail.com',
-  'from_name' => 'Schadendialog Österreich',
+  'from_email' => 'USER_EMAIL',
+  'from_name' => 'USER_NAME',
 ];
 
 ?>
