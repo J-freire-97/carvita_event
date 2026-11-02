@@ -1,11 +1,11 @@
 <?php
 
 $base_dados = [
-  "host" => getenv('DB_HOST') ?: "localhost",
-  "port" => getenv('DB_PORT') ?: "3306",
-  "dbname" => getenv('DB_NAME') ?: "car_vita_event",
-  "user" => getenv('DB_USER') ?: "root",
-  "pass" => getenv('DB_PASS') ?: "",
+  "host" => getenv('DB_HOST') ?: "HOST",
+  "port" => getenv('DB_PORT') ?: "PORT",
+  "dbname" => getenv('DB_NAME') ?: "DB_NAME",
+  "user" => getenv('DB_USER') ?: "USER",
+  "pass" => getenv('DB_PASS') ?: "PASS",
 ];
 
 $dsn = "mysql:host={$base_dados['host']};port={$base_dados['port']};dbname={$base_dados['dbname']};charset=utf8mb4";
